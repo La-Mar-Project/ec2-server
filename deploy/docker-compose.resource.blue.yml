@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  resource-server-blue:
+    image: geooeg/jjubul-resource:1.1.75
+    container_name: jjubul-resource-server-blue
+    ports:
+      - "8080:8080"
+    environment:
+      CORE_DB_URL: ${CORE_DB_URL}
+      CORE_DB_USERNAME: ${CORE_DB_USERNAME}
+      CORE_DB_PASSWORD: ${CORE_DB_PASSWORD}
+      SOLAPI_API_KEY: ${SOLAPI_API_KEY}
+      SOLAPI_API_SECRET: ${SOLAPI_API_SECRET}
+      SOLAPI_SENDER_NUMBER: ${SOLAPI_SENDER_NUMBER}
+    depends_on:
+      - mysql-db
+    networks:
+      - jjubul-network
+  
+  mysql-db:
+    image: mysql:8.0
+    container_name: jjubul-mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: Asia/Seoul
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    networks:
+      - jjubul-network
+
+networks:
+  jjubul-network:
+    driver: bridge
+
+volumes:
+  mysql-volume:
