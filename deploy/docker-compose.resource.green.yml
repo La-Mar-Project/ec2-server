@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  resource-server-green:
+    image: geooeg/jjubul-resource:1.1.74
+    container_name: jjubul-resource-server-green
+    ports:
+      - "8081:8080"
+    environment:
+      CORE_DB_URL: ${CORE_DB_URL}
+      CORE_DB_USERNAME: ${CORE_DB_USERNAME}
+      CORE_DB_PASSWORD: ${CORE_DB_PASSWORD}
+      SOLAPI_API_KEY: ${SOLAPI_API_KEY}
+      SOLAPI_API_SECRET: ${SOLAPI_API_SECRET}
+      SOLAPI_SENDER_NUMBER: ${SOLAPI_SENDER_NUMBER}
+    networks:
+      - jjubul-network
+
+networks:
+  jjubul-network:
+    external: true
+    name: deploy_jjubul-network
