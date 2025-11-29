@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  auth-server-green:
+    image: geooeg/jjubul-auth:1.1.44
+    container_name: jjubul-auth-server-green
+    ports:
+      - "9001:9000"
+    environment:
+      CORE_DB_URL: ${CORE_DB_URL}
+      CORE_DB_USERNAME: ${CORE_DB_USERNAME}
+      CORE_DB_PASSWORD: ${CORE_DB_PASSWORD}
+      KAKAO_CLIENT_ID: ${KAKAO_CLIENT_ID}
+      KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    networks:
+      - jjubul-network
+
+networks:
+  jjubul-network:
+    external: true
+    name: deploy_jjubul-network
